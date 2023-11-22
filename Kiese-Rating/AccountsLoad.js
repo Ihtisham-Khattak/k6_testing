@@ -2,7 +2,7 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 const API_URL =
-  "https://kiese-ratings-backend-f0b816f52143.herokuapp.com/account";
+  "https://kii-main-staging.web.app/auth/login/l-amborhini/offerID=z9Q7bwt3OaZKDYAqoob7";
 
 export let option = {
   stages: [

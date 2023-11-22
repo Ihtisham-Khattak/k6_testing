@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/n/a/issues"
   },
-  "homepage": "https://github.com/n/a#readme"
+  "homepage": "https://github.com/n/a#readme",
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  }
 }

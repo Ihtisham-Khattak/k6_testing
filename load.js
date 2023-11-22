@@ -1,11 +1,6 @@
 // === Load Testing ===
 // https://k6.io/docs/test-types/load-testing/
 
-//? Definition: used to determine a system's behavior under both normal and peak conditions.
-//? Why is it important?
-// * Assess the current performance of your system under typical and peak load.
-// * Make sure you continue to meet the performance standards as you make changes to your system (code and infrastructure).
-
 //API for testing: https://test-api.k6.io/auth/token/login/
 
 import http from "k6/http";
@@ -17,6 +12,7 @@ export const options = {
   // In that case you could configure the load test to stay at 60(will use 6 for the demo) users
   // for most of the day, and ramp-up to 100 users during the peak hours of operation,
   // then ramp-down back to normal load
+  vus: 10,
 
   stages: [
     { duration: "1m", target: 6 },
@@ -27,13 +23,6 @@ export const options = {
     { duration: "1m", target: 6 },
     { duration: "1m", target: 0 },
   ],
-
-  //Why rump-up stages are important?
-  /*  It lets your system warm up or auto scale to handle the traffic.
-      It lets you compare the response time between the low-load and nominal-load stages.
-      *If you run a load test using our SaaS cloud service, it allows the automated performance alerts to better understand the normal behaviour of your system.
-   * 
-   */
 
   //Threshold documentation: https://k6.io/docs/using-k6/thresholds/
   // * Thresholds are the pass/fail criteria that you define for your test metrics.
@@ -54,39 +43,30 @@ export const options = {
   },
 };
 
-const BASE_URL = "https://volangua-backend.herokuapp.com/api/auth";
-const FIRSTNAME = "Wajid";
-const LASTNAME = "Rahul";
-const YEAR = 1998;
-const MONTH = 12;
-const DATE = 10;
-const EMAIL = "ihtishamkhattak9504+WajidT@gamil.com"
-const PASSWORD = "Wajid113";
-
-
-//Test with this API: https://github.com/JoanEsquivel/cypress-course/blob/master/cypress/e2e/39-api-testing-demo.cy.ts
+const BASE_URL = "https://kii-main-staging.web.app/auth/login";
+// const FIRSTNAME = "Wajid";
+// const LASTNAME = "Rahul";
+// const YEAR = 1998;
+// const MONTH = 12;
+// const DATE = 10;
+const EMAIL = "ihtisham_khattak@nextpak.org";
+const PASSWORD = "Test@13";
 
 export default () => {
-  // JS function expression to return a refresh an object with a couple of key/values: refresh & access
-  // https://test-api.k6.io/auth/token/login/
-  // @returns — Resulting response.
-  const loginCred = http.post(`${BASE_URL}/addteacherdata?page=1/`, {
-    
-    firstName: FIRSTNAME,
-    lastName: LASTNAME,
-    password: PASSWORD,
-    year: YEAR,
-    month: MONTH,
-    date: DATE,
-    email: EMAIL,
-    password: PASSWORD,
-  });
+  const loginCred = http.post(
+    `${BASE_URL}/l-amborhini/offerID=z9Q7bwt3OaZKDYAqoob7/`,
+    {
+      // firstName: FIRSTNAME,
+      // lastName: LASTNAME,
+      // password: PASSWORD,
+      // year: YEAR,
+      // month: MONTH,
+      // date: DATE,
+      email: EMAIL,
+      password: PASSWORD,
+    }
+  );
 
-
-  // Check documentation: https://k6.io/docs/javascript-api/k6/check/
-  // ? loginRes:any = value to test
-  // ? sets:object = tests (checks) to run on the value
-  // @returns: boolean = true if all checks have succeeded, false otherwise.
   check(loginCred, {
     "logged in successfully": (resp) => resp.json("access") !== "",
   });
@@ -97,11 +77,5 @@ export default () => {
   //     Authorization: `Bearer ${loginRes.json("access")}`,
   //   },
   // };
-
-  //Endpoint: https://test-api.k6.io/my/crocodiles/
-  // const myObjects = http.get(`${BASE_URL}/`);
-  // //This check is going to validate that there is more than one crocodile return
-  // check(myObjects, { "retrieved travos main page": (obj) => obj.length > 0 });
-
   sleep(1);
 };
